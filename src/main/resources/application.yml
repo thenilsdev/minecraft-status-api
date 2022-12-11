@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: minecraft-status-api
+  profiles:
+    active:
+      - "prod"
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
