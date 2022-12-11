@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class PingController {
@@ -34,17 +33,14 @@ public class PingController {
     }
 
     @GetMapping("/v1/ping/targets")
-    public ResponseEntity<Map<Long, String>> targets(@Valid @RequestBody PingTargetsDto data) {
+    public ResponseEntity<List<Server>> targets(@Valid @RequestBody PingTargetsDto data) {
         DataCollector dataCollector = this.dataCollectorRepository.findByTokenLike(data.getToken());
 
         if (dataCollector == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Map<Long, String> result = this.serverRepository.findAll().stream()
-                .collect(Collectors.toMap(Server::getId, Server::getAddress));
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(this.serverRepository.findAll());
     }
 
     @PostMapping("/v1/ping/submit")
