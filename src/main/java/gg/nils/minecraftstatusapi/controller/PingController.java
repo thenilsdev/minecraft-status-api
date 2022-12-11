@@ -32,7 +32,7 @@ public class PingController {
         this.serverRepository = serverRepository;
     }
 
-    @GetMapping("/v1/ping/targets")
+    @PostMapping("/v1/ping/targets")
     public ResponseEntity<List<Server>> targets(@Valid @RequestBody PingTargetsDto data) {
         DataCollector dataCollector = this.dataCollectorRepository.findByTokenLike(data.getToken());
 
